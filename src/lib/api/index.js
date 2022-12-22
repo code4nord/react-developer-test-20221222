@@ -1,7 +1,7 @@
 import { usersDiff, projectsDiff } from './data';
 
 const DEFAULT_DELAY = 2000;
-const PAGE_SIZE = 3;
+const PAGE_SIZE = 5;
 
 const resolveOrRejectCollection = (timesCalled, collection) => () => {
   return new Promise((resolve, reject) => {
@@ -11,6 +11,8 @@ const resolveOrRejectCollection = (timesCalled, collection) => () => {
       const sliceEnd = PAGE_SIZE * Math.ceil(timesCalled / 2);
       const totalItems = collection.length;
       const hasItems = sliceStart < totalItems;
+
+      console.log(timesCalled);
 
       clearTimeout(id);
 
