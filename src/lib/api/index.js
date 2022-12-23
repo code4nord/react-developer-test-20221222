@@ -1,6 +1,6 @@
 import { usersDiff, projectsDiff } from './data';
 
-const DEFAULT_DELAY = 2000;
+const DEFAULT_DELAY = 500;
 const PAGE_SIZE = 3;
 
 const resolveOrRejectCollection = (timesCalled, collection) => () => {
