@@ -1,7 +1,7 @@
 import { usersDiff, projectsDiff } from './data';
 
-const DEFAULT_DELAY = 2000;
-const PAGE_SIZE = 5;
+const DEFAULT_DELAY = 500;
+const PAGE_SIZE = 3;
 
 const resolveOrRejectCollection = (timesCalled, collection) => () => {
   return new Promise((resolve, reject) => {
@@ -12,8 +12,6 @@ const resolveOrRejectCollection = (timesCalled, collection) => () => {
       const totalItems = collection.length;
       const hasItems = sliceStart < totalItems;
 
-      console.log(timesCalled);
-
       clearTimeout(id);
 
       if (timesCalled % 2 === 0) {
@@ -22,6 +20,8 @@ const resolveOrRejectCollection = (timesCalled, collection) => () => {
           error: 'Uknown error',
         });
       }
+
+      console.log(collection.slice(sliceStart, sliceEnd));
 
       return resolve({
         code: 200,

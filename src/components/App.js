@@ -19,70 +19,28 @@ export const App = () => {
   const [updateUsers, setUpdateUsers] = useState(false);
   const [updateProjects, setUpdateProjects] = useState(false);
 
-  // const fetchData = async (usersAreFetching, projectsAreFetching) => {
-  //   console.log(usersAreFetching, projectsAreFetching);
-
-  //   if (usersAreFetching) {
-  //     setUsers(prev => ({
-  //       ...prev,
-  //       isLoading: true
-  //     }))
-  //     await api.getUsersDiff().then((data => {
-  //       setUsers(prev => ({
-  //         ...prev,
-  //         fetchedData: data,
-  //         isLoading: false
-  //       }));
-  //     })).catch(({ error }) => {
-  //       setUsers(prev => ({
-  //         ...prev,
-  //         isLoading: false,
-  //         errMSg: error,
-  //       }));
-  //       console.log(error);
-  //     });
-  //   }
-
-  //   if (projectsAreFetching) {
-  //     setProjects(prev => ({
-  //       ...prev,
-  //       isLoading: true
-  //     }))
-  //     await api.getProjectsDiff().then((data => {
-  //       setProjects(prev => ({
-  //         ...prev,
-  //         fetchedData: data,
-  //         isLoading: false
-  //       }));
-  //     })).catch(({ error }) => {
-  //       setProjects(prev => ({
-  //         ...prev,
-  //         isLoading: false,
-  //         errMSg: error,
-  //       }));
-  //       console.log(error);
-  //     });
-  //   }
-  // };
-
-  const fetchUsers = async () => {
+  const fetchUsers = async (sort) => {
     setUsers(prev => ({
       ...prev,
       isLoading: true
     }))
-    await api.getUsersDiff().then((data => {
+    await api.getUsersDiff().then((resp => {
+      resp.data.sort((a, b) => {
+        return b.timestamp - a.timestamp
+      });
+
       setUsers(prev => ({
         ...prev,
-        fetchedData: data,
-        isLoading: false
+        fetchedData: resp,
+        isLoading: false,
+        errMSg: null
       }));
-    })).catch(({ error }) => {
+    })).catch(() => {
       setUsers(prev => ({
         ...prev,
         isLoading: false,
         errMSg: "We had problems fetching your data. Please try again",
       }));
-      console.log(error);
     });
   }
 
@@ -92,18 +50,22 @@ export const App = () => {
       isLoading: true
     }))
     await api.getProjectsDiff().then((data => {
-      setProjects(prev => ({
-        ...prev,
-        fetchedData: data,
-        isLoading: false
-      }));
-    })).catch(({ error }) => {
-      setProjects(prev => ({
-        ...prev,
-        isLoading: false,
-        errMSg: "We had problems fetching your data. Please try again",
-      }));
-      console.log(error);
+      setProjects(prev => {
+        return {
+          ...prev,
+          fetchedData: data,
+          isLoading: false,
+          errMSg: null
+        }
+      });
+    })).catch(() => {
+      setProjects(prev => {
+        return {
+          ...prev,
+          isLoading: false,
+          errMSg: "We had problems fetching your data. Please try again",
+        }
+      });
     });
   }
 
@@ -130,7 +92,7 @@ export const App = () => {
   return (
     <Container className="app" fixed>
       <Box data-testid="app-box" m={2}>
-        <Table data={users} updateState={setUpdateUsers} errMsg={users.errMSg} />
+        <Table data={users} updateState={setUpdateUsers} errMsg={users.errMSg} sortByDate />
         <Table data={projects} updateState={setUpdateProjects} errMsg={projects.errMSg} />
       </Box>
     </Container>
