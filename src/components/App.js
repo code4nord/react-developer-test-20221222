@@ -95,10 +95,6 @@ export const App = () => {
   }
 
   useEffect(() => {
-    console.log(users.isNewestFirst);
-  }, [users.isNewestFirst])
-
-  useEffect(() => {
     fetchUsers();
     fetchProjects();
   }, [])
