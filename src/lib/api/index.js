@@ -21,8 +21,6 @@ const resolveOrRejectCollection = (timesCalled, collection) => () => {
         });
       }
 
-      console.log(collection.slice(sliceStart, sliceEnd));
-
       return resolve({
         code: 200,
         data: collection.slice(sliceStart, sliceEnd),

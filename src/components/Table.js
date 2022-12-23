@@ -10,14 +10,16 @@ export const TableLayout = ({ classes, updateState, data, errMsg, sortByDate }) 
       <Table className={classes.root}>
         <TableHead>
           <TableRow>
-            <TableCell onClick={() => sortByDate()}><Typography className={classes.tableHeader}>Date</Typography></TableCell>
+            <TableCell onClick={(e) => {
+              sortByDate(prev => !prev);
+            }}><Typography className={classes.tableHeaderClick}>Date</Typography></TableCell>
             <TableCell><Typography className={classes.tableHeader}>User ID</Typography></TableCell>
             <TableCell><Typography className={classes.tableHeader}>Old Value</Typography></TableCell>
             <TableCell><Typography className={classes.tableHeader}>New Value</Typography></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {fetchedData && fetchedData.data.map(row => {
+          {fetchedData && fetchedData.map(row => {
             const date = new Date(row.timestamp);
             return (
               <TableRow key={row.id}>
@@ -76,6 +78,10 @@ const styles = () => ({
   tableHeader: {
     fontWeight: '600'
   },
+  tableHeaderClick: {
+    fontWeight: '600',
+    cursor: 'pointer'
+  },
   responsiveTable: {
     overflowX: 'auto',
     padding: "10px",
@@ -83,4 +89,4 @@ const styles = () => ({
   }
 });
 
-export default withStyles(styles)(TableLayout);;
+export default withStyles(styles)(TableLayout);
