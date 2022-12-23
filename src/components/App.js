@@ -29,12 +29,25 @@ export const App = () => {
     }))
 
     await api.getUsersDiff().then((data => {
-      setUsers(prev => ({
-        ...prev,
-        fetchedData: data.data,
-        isLoading: false,
-        errMSg: null
-      }));
+      setUsers(prev => {
+        if (usersOrder) {
+          const sorted = [...data.data].sort((a, b) => a.timestamp - b.timestamp);
+          return {
+            ...prev,
+            fetchedData: sorted,
+            isLoading: false,
+            errMSg: null
+          }
+        } else {
+          const sorted = [...data.data].sort((a, b) => b.timestamp - a.timestamp);
+          return {
+            ...prev,
+            fetchedData: sorted,
+            isLoading: false,
+            errMSg: null
+          }
+        }
+      });
     })).catch(() => {
       setUsers(prev => ({
         ...prev,
@@ -52,11 +65,22 @@ export const App = () => {
 
     await api.getProjectsDiff().then((data => {
       setProjects(prev => {
-        return {
-          ...prev,
-          fetchedData: data.data,
-          isLoading: false,
-          errMSg: null
+        if (projectsOrder) {
+          const sorted = [...data.data].sort((a, b) => a.timestamp - b.timestamp);
+          return {
+            ...prev,
+            fetchedData: sorted,
+            isLoading: false,
+            errMSg: null
+          }
+        } else {
+          const sorted = [...data.data].sort((a, b) => b.timestamp - a.timestamp);
+          return {
+            ...prev,
+            fetchedData: sorted,
+            isLoading: false,
+            errMSg: null
+          }
         }
       });
     })).catch(() => {
