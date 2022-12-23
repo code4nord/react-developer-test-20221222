@@ -3,7 +3,8 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 
-export const TableLayout = ({ classes, updateState, data, loading, errMsg }) => {
+export const TableLayout = ({ classes, updateState, data, errMsg }) => {
+  const { fetchedData, isLoading } = data;
   return (
     <Table className={classes.root}>
       <TableHead>
@@ -15,7 +16,7 @@ export const TableLayout = ({ classes, updateState, data, loading, errMsg }) => 
         </TableRow>
       </TableHead>
       <TableBody>
-        {data && data.data.map(row => {
+        {fetchedData && fetchedData.data.map(row => {
           const date = new Date(row.timestamp);
           return (
             <TableRow key={row.id}>
@@ -33,11 +34,10 @@ export const TableLayout = ({ classes, updateState, data, loading, errMsg }) => 
               </TableCell>
             </TableRow>
           )
-        }
-        )}
+        })}
         <TableRow>
           <TableCell colSpan={'4'} style={{ "textAlign": "center" }}>
-            {!loading ? (!errMsg ? <Button variant="contained" color="primary" onClick={() => {
+            {!isLoading ? (!errMsg ? <Button variant="contained" color="primary" onClick={() => {
               updateState(true);
             }} >
               Load More
