@@ -20,20 +20,16 @@ export const UserReducer = (state: UserState = userInitState, action: UserAction
   switch (action.type) {
     case ActionType.SORT_USERS_DESC: {
       return {
+        ...state,
         data: state.data.slice().sort((a, b) => b.timestamp - a.timestamp),
-        loading: false,
-        errResp: {
-          errMsg: ""
-        }
+        loading: false
       }
     }
     case ActionType.SORT_USERS_ASC: {
       return {
+        ...state,
         data: state.data.slice().sort((a, b) => a.timestamp - b.timestamp),
-        loading: false,
-        errResp: {
-          errMsg: ""
-        }
+        loading: false
       }
     }
     case ActionType.GET_USERS_PENDING: {
@@ -68,6 +64,20 @@ export const UserReducer = (state: UserState = userInitState, action: UserAction
 
 export const ProjectReducer = (state: State = projectInitState, action: ProjectAction): State => {
   switch (action.type) {
+    case ActionType.SORT_PROJECTS_DESC: {
+      return {
+        ...state,
+        data: state.data.slice().sort((a, b) => b.timestamp - a.timestamp),
+        loading: false
+      }
+    }
+    case ActionType.SORT_PROJECTS_ASC: {
+      return {
+        ...state,
+        data: state.data.slice().sort((a, b) => a.timestamp - b.timestamp),
+        loading: false
+      }
+    }
     case ActionType.GET_PROJECTS_PENDING: {
       return {
         ...state,

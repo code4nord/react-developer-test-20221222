@@ -14,7 +14,7 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 type Props = {
   fetchData: () => void
   state: State,
-  sortData: () => void,
+  sortData: (value: React.SetStateAction<boolean>) => void,
   sort: Boolean
 };
 
@@ -44,28 +44,28 @@ export const TableData = ({ fetchData, state, sort, sortData }: Props) => {
     <Table style={tableStyle}>
       <TableHead>
         <TableRow>
-          <TableCell scope="col" onClick={sortData}>Date {arrow}</TableCell>
+          <TableCell scope="col" onClick={() => !loading ? sortData(!sort) : null}>Date {arrow}</TableCell>
           <TableCell scope="col">UserID</TableCell>
           <TableCell scope="col">Old Value</TableCell>
           <TableCell scope="col">New Value</TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
-        {data.length > 0 && data.map((key, index) => {
-          const date = new Date(data[index].timestamp);
+        {data.length > 0 && data.map((key) => {
+          const date = new Date(key.timestamp);
           return (
-            <TableRow key={index}>
+            <TableRow key={key.id}>
               <TableCell>
                 {date.toLocaleDateString("sv")}
               </TableCell>
               <TableCell>
-                {data[index].id}
+                {key.id}
               </TableCell>
               <TableCell>
-                {data[index].diff[0].newValue}
+                {key.diff[0].newValue}
               </TableCell>
               <TableCell>
-                {data[index].diff[0].newValue}
+                {key.diff[0].newValue}
               </TableCell>
             </TableRow>
           )
