@@ -1,50 +1,64 @@
-import { Action, ActionType } from '../actions/index';
+import { UserAction, ActionType, UserState, State, ProjectAction } from '../actions/index';
 
-export interface User {
-  id: number,
-  timestamp: number,
-  diff: Array<diff>
-}
-
-interface diff {
-  name: string,
-  oldValue: string,
-  newValue: string
-}
-
-interface State {
-  users: User[],
-  loading: boolean,
-  error: string | null
-}
-
-const initState = {
-  users: [],
+const userInitState: State = {
+  data: [],
   loading: false,
-  error: null
-}
+  errResp: {
+    errMsg: ""
+  }
+};
 
-const UserReducer = (state: State = initState, action: Action): State => {
+const projectInitState: State = {
+  data: [],
+  loading: false,
+  errResp: {
+    errMsg: ""
+  }
+};
+
+export const UserReducer = (state: UserState = userInitState, action: UserAction): UserState => {
   switch (action.type) {
+    case ActionType.SORT_USERS_DESC: {
+      return {
+        data: state.data.slice().sort((a, b) => b.timestamp - a.timestamp),
+        loading: false,
+        errResp: {
+          errMsg: ""
+        }
+      }
+    }
+    case ActionType.SORT_USERS_ASC: {
+      return {
+        data: state.data.slice().sort((a, b) => a.timestamp - b.timestamp),
+        loading: false,
+        errResp: {
+          errMsg: ""
+        }
+      }
+    }
     case ActionType.GET_USERS_PENDING: {
       return {
+        ...state,
         loading: true,
-        users: [],
-        error: null
+        errResp: {
+          errMsg: ""
+        }
       }
     }
     case ActionType.GET_USERS_SUCCESS: {
       return {
+        ...state,
         loading: false,
-        users: action.payload,
-        error: null
+        data: action.payload
       }
     }
     case ActionType.GET_USERS_FAIL: {
       return {
-        loading: true,
-        users: [],
-        error: action.payload
+        ...state,
+        loading: false,
+        errResp: {
+          errMsg: action.payload
+        }
       }
     }
     default:
@@ -52,4 +66,34 @@ const UserReducer = (state: State = initState, action: Action): State => {
   }
 }
 
-export default UserReducer;
+export const ProjectReducer = (state: State = projectInitState, action: ProjectAction): State => {
+  switch (action.type) {
+    case ActionType.GET_PROJECTS_PENDING: {
+      return {
+        ...state,
+        loading: true,
+        errResp: {
+          errMsg: ""
+        }
+      }
+    }
+    case ActionType.GET_PROJECTS_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        data: action.payload
+      }
+    }
+    case ActionType.GET_PROJECTS_FAIL: {
+      return {
+        ...state,
+        loading: false,
+        errResp: {
+          errMsg: action.payload
+        }
+      }
+    }
+    default:
+      return state;
+  }
+}

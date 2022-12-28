@@ -11,6 +11,7 @@ const resolveOrRejectCollection = (timesCalled, collection) => () => {
       const sliceEnd = PAGE_SIZE * Math.ceil(timesCalled / 2);
       const totalItems = collection.length;
       const hasItems = sliceStart < totalItems;
+      console.log(timesCalled);
 
       clearTimeout(id);
 
