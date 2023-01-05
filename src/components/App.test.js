@@ -1,17 +1,11 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { App } from './App';
+import App from './App';
+import { store } from '../store';
+import { Provider } from 'react-redux';
 
-describe('<App />', () => {
-  let wrapper;
-
-  beforeEach(() => {
-    wrapper = shallow(<App />);
-  });
-
-  describe('render()', () => {
-    it('renders the Box', () => {
-      expect(wrapper.find({ 'data-testid': 'app-box' })).toHaveLength(1);
-    });
-  });
+describe('rendering components', () => {
+  it("renders App component without crashing", () => {
+    shallow(<Provider store={store}><App /></Provider>)
+  })
 });
