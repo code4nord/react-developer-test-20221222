@@ -2,7 +2,6 @@ import { Dispatch } from 'redux';
 import { ActionType, UserAction, DefaultState } from '../actions/index';
 import api from '../../lib/api';
 
-
 export const fetchUsers = (sort: Boolean) => {
   return async (dispatch: Dispatch<UserAction>) => {
     dispatch({

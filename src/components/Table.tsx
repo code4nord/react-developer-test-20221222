@@ -62,7 +62,7 @@ export const TableData = ({ fetchData, state, sort, sortData }: Props) => {
                 {key.id}
               </TableCell>
               <TableCell>
-                {key.diff[0].newValue}
+                {key.diff[0].oldValue}
               </TableCell>
               <TableCell>
                 {key.diff[0].newValue}
